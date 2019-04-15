@@ -8,4 +8,5 @@ function add_question(ev){
     var message = the_question[0].value;
     new_place.append(message);
     place.append(new_place);
+    fetch('/question', {method: 'POST', body: new FormData(this)});
 }
