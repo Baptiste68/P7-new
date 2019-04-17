@@ -5,7 +5,7 @@ import re
 import json
 import requests
 
-from config import API_WIKI
+from config import API_WIKI, ERROR_MSG
 
 # from .views import app
 
@@ -20,8 +20,7 @@ class Question:
        
         self.my_word_list = my_useless_words
         self.text_to_analyse = textquestion
-
-        self.text_to_analyse_parsed = self.parse_my_question()
+        self.link_wiki = ""
 
 
     def parse_my_question(self):
@@ -33,44 +32,58 @@ class Question:
             with open(os.path.dirname(os.path.abspath(__file__)) + '/word_list.json') as f:
                 useless_word_list = json.load(f)
         except IOError as err:
-            print('Error loading word file : ' + str(err))
-            useless_word_list = "error"
+            final_list_paresed = ERROR_MSG['PARSED_FAILED'] + str(err)
         
-        # Adding some custom words in the list
-        useless_word_list.extend(self.my_word_list)
+        else:
+            # Adding some custom words in the list
+            useless_word_list.extend(self.my_word_list)
 
-        # Remove all punctuation and change the text in lowercase with a regex
-        string_without_punctuation = re.sub(r"[-,.;@#?!&$'()<>/]+ *", " ", self.text_to_analyse.lower(), )
+            # Remove all punctuation and change the text in lowercase with a regex
+            string_without_punctuation = re.sub(r"[-,.;@#?!&$'()<>/:]+ *", " ", self.text_to_analyse.lower(), )
 
-        words_to_parse = string_without_punctuation.split()
-        final_list = []
+            words_to_parse = string_without_punctuation.split()
+            final_list = []
 
-        # Go through the words in the question and check if useful or not
-        for word in words_to_parse:
-            if word not in useless_word_list:
-                final_list.append(word)
-        final_list_paresed = ' '.join(final_list)
+            # Go through the words in the question and check if useful or not
+            for word in words_to_parse:
+                if word not in useless_word_list:
+                    final_list.append(word)
+            final_list_paresed = ' '.join(final_list)
 
         return final_list_paresed
 
-    def wiki_info(self):
 
-        my_search_term = self.text_to_analyse_parsed
+    def wiki_info(self):
+        """
+            Function that check Wikipedia info
+        """
+        my_search_term = self.parse_my_question()
         payload = {'gsrsearch': my_search_term,}
         payload.update(**API_WIKI['PARAM'])
 
-        result = requests.get(API_WIKI['ROOT_URL'], params=payload)
-        self.wiki_json = json.loads(result.text)
-
+        # We try to connect using the CONFIG PARAM and the text parsed
         try:
-            article_id = self.wiki_json ['query']['pageids'][0]
-            wiki_article_intro = self.wiki_json['query']['pages'][article_id]['extract']
-            wiki_link = 'http://fr.wikipedia.org/?curid='+article_id
-            wiki_article_intro = wiki_article_intro + ' <a href="' + \
-                                 wiki_link + '" target="_blank">En savoir plus sur wikipédia.</a>'
+            result = requests.get(API_WIKI['ROOT_URL'], params=payload)
+            self.wiki_json = json.loads(result.text)
 
-        except KeyError:
-           # TODO wiki_article_intro = self.wiki_response_html
-           wiki_article_intro = "oupsy"
+        # If failed, send connection error message
+        except:
+            wiki_article_intro = ERROR_MSG['CONNECTION_FAILED_WIKI']
 
+        else:
+            # We try to receive information on an articale
+            try:
+                article_id = self.wiki_json ['query']['pageids'][0]
+                wiki_article_intro = self.wiki_json['query']['pages'][article_id]['extract']
+                self.link_wiki = 'http://fr.wikipedia.org/?curid='+article_id
+                wiki_article_intro = wiki_article_intro
+
+            # If faileed we show an error message
+            except KeyError:
+                wiki_article_intro = ERROR_MSG['NOTHING_FOUND']
+
+        # Return the result
         return wiki_article_intro
+
+    def get_link_wiki(self):
+        return self.link_wiki
