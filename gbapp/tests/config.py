@@ -37,5 +37,5 @@ ERROR_MSG = {
 
     'NOTHING_FOUND' : 'Oups, je ne connais rien sur ce sujet',
 
-    'CONNECTION_FAILED_WIKI' : 'Aie, je n\'ai pas pu me connecter sur Wikipedia...'
+    'CONNECTION_FAILED' : 'Aie, je n\'ai pas pu me connecter...'
 }
