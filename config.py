@@ -7,6 +7,8 @@ SECRET_KEY = "#d#JCqTTW\nilK\\7m\x0bp#\tj~#H"
 basedir = os.path.abspath(os.path.dirname(__file__))
 print(basedir)
 
+MAPS_KEY = "AIzaSyBWGDqVszmpzIc9jxeUMZbJc3lQuQZPC-k"
+
 # Active le debogueur
 DEBUG = True
 TESTING = True
@@ -38,4 +40,17 @@ ERROR_MSG = {
     'NOTHING_FOUND' : 'Oups, je ne connais rien sur ce sujet',
 
     'CONNECTION_FAILED_WIKI' : 'Aie, je n\'ai pas pu me connecter sur Wikipedia...'
+}
+
+
+API_MAPS = {
+    'ADDR_URL': 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json',
+
+    'PARAM': {
+        'key': MAPS_KEY,
+        'inputtype': 'textquery',
+        'language': 'fr',
+        'fields': 'formatted_address'
+    }
+    
 }
