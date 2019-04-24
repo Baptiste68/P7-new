@@ -27,10 +27,17 @@ def question():
                 wiki.update({'result': my_parse})
 
             else:
+                maps_step1 = question.maps_info()
+                print(maps_step1)
+                wiki.update(maps_step1)
+                """
                 wiki.update({'result': question.wiki_info()})
                 if not ERROR_MSG['NOTHING_FOUND'] in question.wiki_info():
                     wiki.update({'link_wiki': question.get_link_wiki()})
-
+                """
+                wiki.update({'result': 'res'})
+                wiki.update({'coord': maps_step1['candidates'][0]['geometry']['location']})
+                print(wiki)
             return jsonify(wiki)
     return 'QQ'
 

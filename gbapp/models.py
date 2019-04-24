@@ -5,7 +5,7 @@ import re
 import json
 import requests
 
-from config import API_WIKI, ERROR_MSG
+from config import API_WIKI, ERROR_MSG, API_MAPS
 
 # from .views import app
 
@@ -85,5 +85,36 @@ class Question:
         # Return the result
         return wiki_article_intro
 
+
     def get_link_wiki(self):
         return self.link_wiki
+
+
+    def maps_info(self):
+        """
+            Function that check maps info
+        """
+        #my_search_term = self.parse_my_question()
+        #payload = {'input': my_search_term,}
+        #payload.update(**API_MAPS['PARAM'])
+
+        #print(payload)
+        #result = requests.get(API_MAPS['ADDR_URL'], params=payload)
+        #maps_json = json.loads(result.text)
+        """
+        # We try to connect using the CONFIG PARAM and the text parsed
+        try:
+            result = requests.get(API_MAPS['ADDR_URL'], params=payload)
+            maps_json = json.loads(result.text)
+
+        # If failed, send connection error message
+        except:
+            maps_json = ERROR_MSG['CONNECTION_FAILED_WIKI']
+        """
+        #print(maps_json)
+        #mock = {'candidates': [{'formatted_address': '140 George St, The Rocks NSW 2000, Australie'}], 'status': 'OK'}
+        
+        mock_loc = {'candidates': [{'formatted_address': '140 George St, The Rocks NSW 2000, Australie', 'geometry': {'location': {'lat': -33.8599358, 'lng': 151.2090295}, 'viewport': {'northeast': {'lat': -33.85824767010727, 'lng': 151.2102470798928}, 'southwest': {'lat': -33.86094732989272, 'lng': 151.2075474201073}}}}], 'status': 'OK'}
+        
+        return mock_loc
+        
