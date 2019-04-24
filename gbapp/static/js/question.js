@@ -23,6 +23,7 @@ function display_ans(json){
     // get the link of the wiki
     var link_wiki = json.link_wiki;
     // get the coordinate of the location
+
     var coord = json.coord;
     var latt = coord['lat'];
     var long = coord['lng'];
