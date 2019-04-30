@@ -4,41 +4,92 @@ the_question.addEventListener('submit', add_question);
 // counter to increase the div for map display
 var counter = 1
 
-// treatment of the question
+
+function scrollDown(){
+    var objDiv = document.getElementById("reponses");
+    objDiv.scrollTop = objDiv.scrollHeight;
+}
+
+/*
+ * Function to display question and the waiting sing
+ */
+function print_question(question){
+    var parent_place = document.getElementById('reponses');
+    var question_place = document.createElement('div');
+    question_place.setAttribute('id', 'qplace');
+    var to_show = ` 
+            <p> Alors mon petit, ta question est donc: ${question} </p> 
+            <p> Je dois réfléchir </p>
+            <p>
+                <img src="http://vip-identity-ui.s3-website-us-east-1.amazonaws.com/latest/images/loader.gif" alt="" />
+            </p>
+            `;
+    question_place.innerHTML = to_show
+    parent_place.append(question_place);
+    scrollDown();
+}
+
+/*
+ * Function to do the treatment of the question
+ */ 
 function add_question(ev){
     ev.preventDefault();
+    var def_quest = document.getElementById('input').value;
+    print_question(def_quest);
     fetch('/question', {method: 'POST', body: new FormData(this)})
     .then(function(response) { return response.json()})
     .then(display_ans)
 }
 
-// Display of all the information
+/*
+ * Function to do the display of all the information
+ */ 
 function display_ans(json){
+    // Remove the waiting
+    var elem_to_remove = document.getElementById('qplace');
+    elem_to_remove.parentNode.removeChild(elem_to_remove);
     // place is where we insert the answers
     const place = document.getElementById('reponses');
     var new_place = document.createElement('div');
     // get the question for display
     var question = json.question;
-    var result = json.result;
+    var err_parse = json.err_parse;
+    var err_map = json.err_map;
+    var err_wiki = json.err_wiki;
     // get the link of the wiki
     var link_wiki = json.link_wiki;
-    // get the coordinate of the location
-
-    var coord = json.coord;
-    var latt = coord['lat'];
-    var long = coord['lng'];
-    var loca = {lat: latt, lng: long};
-    // get the address 
-    var addr = json.candidates[0]['formatted_address'];
     // displaying the answers
     var to_show = ` 
             <p> Alors mon petit, ta question est donc: ${question} </p> 
-            <p> Voici ma réponse: ${result} et ${addr} </p>
-            <div id="map-container-${counter}" class="z-depth-1" style="height: 300px"></div>
             `;
-    if (link_wiki != undefined){
+
+    if (err_parse != ''){
         to_show = to_show +
             `
+            <p> Voici ma réponse: ${err_parse} </p>
+            `;
+    } 
+    else if (err_map != '' || err_wiki != '') {
+        to_show = to_show +
+            `
+            <p> Voici ma réponse: ${err_map} -- ${err_wiki} </p>
+            `;
+    } 
+    else {
+        // get the address 
+        var addr = json.addr;
+        to_show = to_show +
+            `
+            <p> Voici ma réponse: cela se trouve ici - ${addr} </p>
+            <div id="map-container-${counter}" class="z-depth-1" style="height: 300px"></div>
+            `;
+    }
+
+    if (link_wiki != undefined){
+        var wiki_ans = json.wiki_ans
+        to_show = to_show +
+            `
+            <p> Voici son histoire: ${wiki_ans}</p>
             <p> Mais je fatigue, va lire par toi même: <a href="${link_wiki}">vas-y mon petit</a></p>
             `;
     }
@@ -47,10 +98,17 @@ function display_ans(json){
     //new_place.append(question);
     place.append(new_place);
     // Display the map
-    var map = new google.maps.Map(document.getElementById('map-container-'+counter), {center: loca, zoom: 15});
-    var var_marker = new google.maps.Marker({position: loca, map: map});
+    if (err_map == ''){
+        // get the coordinate of the location
+        var coord = json.coord;
+        var latt = coord['lat'];
+        var long = coord['lng'];
+        var loca = {lat: latt, lng: long};
+        var map = new google.maps.Map(document.getElementById('map-container-'+counter), {center: loca, zoom: 15});
+        var var_marker = new google.maps.Marker({position: loca, map: map});
+    }
+
     counter = counter + 1
-    //new_place = document.createElement('div');
-    //new_place.append(result);
-    //place.append(new_place);
+    scrollDown();
+
 }

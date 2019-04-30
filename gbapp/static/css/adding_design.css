@@ -1,0 +1,8 @@
+div#reponses.col-sm-10 {
+    height: 250px;
+    overflow: auto;
+}
+
+div.row.col-sm-10 {
+    background-color: #7454ec;
+}

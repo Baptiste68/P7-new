@@ -1,8 +1,6 @@
 import os
 
-# To generate a new secret key:
-# >>> import random, string
-# >>> "".join([random.choice(string.printable) for _ in range(24)])
+
 SECRET_KEY = "#d#JCqTTW\nilK\\7m\x0bp#\tj~#H"
 basedir = os.path.abspath(os.path.dirname(__file__))
 print(basedir)
@@ -37,20 +35,24 @@ API_WIKI = {
 ERROR_MSG = {
     'PARSED_FAILED' : 'Je ne suis pas parvenu a parser votre question à cause de:',
 
-    'NOTHING_FOUND' : 'Oups, je ne connais rien sur ce sujet',
+    'NOTHING_FOUND_WIKI' : 'Oups, je ne connais rien sur ce sujet',
 
-    'CONNECTION_FAILED_WIKI' : 'Aie, je n\'ai pas pu me connecter sur Wikipedia...'
+    'NOTHING_FOUND_MAP' : 'Oups, je ne parviens pas à trouver la localisation',
+
+    'CONNECTION_FAILED_WIKI' : 'Aie, je n\'ai pas pu me connecter sur Wikipedia...',
+    
+    'CONNECTION_FAILED_MAPS' : 'Aie, je n\'ai pas pu me connecter sur Google Maps...'
 }
 
 
 API_MAPS = {
     'ADDR_URL': 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json',
-    'MAP_URL': 'https://www.google.com/maps/search/?api=1',
 
     'PARAM': {
         'key': MAPS_KEY,
         'inputtype': 'textquery',
         'language': 'fr',
+        'type': 'street_address',
         'fields': 'formatted_address,geometry'
     }
     
