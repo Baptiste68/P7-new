@@ -14,11 +14,11 @@ https://trello.com/b/O5cfBlhH/grandpy-bot
   * The question is then display in the free area ![#f03c15](https://placehold.it/15/f03c15/000000?text=+)
   * The displaying is auto adapting ![#f03c15](https://placehold.it/15/f03c15/000000?text=+)
   * The answer is displayed: ![#f03c15](https://placehold.it/15/f03c15/000000?text=+)
-    * API connection ![#f03c15](https://placehold.it/15/f03c15/000000?text=+)
-    * Correct API field taken ![#f03c15](https://placehold.it/15/f03c15/000000?text=+)
-    * Errors are handeled ![#f03c15](https://placehold.it/15/f03c15/000000?text=+)
-    * The story of GranPy is displayed ![#f03c15](https://placehold.it/15/f03c15/000000?text=+)
-    * Possible link is clickable ![#f03c15](https://placehold.it/15/f03c15/000000?text=+)
+    * API connection ![#c5f015](https://placehold.it/15/c5f015/000000?text=+)
+    * Correct API field taken ![#c5f015](https://placehold.it/15/c5f015/000000?text=+)
+    * Errors are handeled ![#c5f015](https://placehold.it/15/c5f015/000000?text=+)
+    * The story of GranPy is displayed ![#c5f015](https://placehold.it/15/c5f015/000000?text=+)
+    * Possible link is clickable ![#c5f015](https://placehold.it/15/c5f015/000000?text=+)
     
 Legend  
 ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Not pass yet  
