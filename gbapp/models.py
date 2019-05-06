@@ -75,8 +75,8 @@ class Question:
 
         if my_search_term == "":
             wiki_article = ERROR_MSG['NOTHING_FOUND_WIKI']
-            wiki_article = wiki_article + " votre question parser retourne une\
-                chaine vide"
+            wiki_article = wiki_article + " votre question parser retourne "+\
+                " une chaine vide"
 
         else:
             # We try to connect using the CONFIG PARAM and the text parsed
