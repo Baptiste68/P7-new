@@ -1,0 +1,44 @@
+div#reponses.col-sm-10 {
+    height: 50vh;
+    overflow: auto;
+}
+
+body {
+    background-image: url("../image/wood.jpg");
+}
+
+header {
+    text-align: center;
+}
+
+#center{
+    margin: unset;
+    background-image: url("../image/wall.jpg");
+    border-top: black;
+    border-bottom: black;
+    border-right-width: 0px;
+    border-left-width: 0px;
+    border-style: solid;
+}
+
+#mainbloc {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: rgba(12, 3, 3, 0.85)
+}
+
+.titre {
+    position: relative;
+}
+
+.titre p {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    color: rgb(245, 227, 227);
+    text-shadow: black 0.1em 0.1em 0.2em;
+    font-size: x-large;
+}
